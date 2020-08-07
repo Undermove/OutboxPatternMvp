@@ -5,7 +5,7 @@ using MySqlConnector;
 
 namespace Producer
 {
-	public class PublishController : Controller
+	public class PublishController: ControllerBase
 	{
 		private readonly ICapPublisher _capBus;
 
@@ -14,8 +14,9 @@ namespace Producer
 			_capBus = capPublisher;
 		}
 
-		[Route("~/adonet/transaction")]
-		public IActionResult AdonetWithTransaction()
+		[HttpGet]
+		[Route("outbox", Name = "outbox")]
+		public IActionResult Publish()
 		{
 			using (var connection = new MySqlConnection("Server=localhost;Database=outboxmvp;Uid=app;Password=12345;Allow User Variables=True;Port=3308"))
 			{
