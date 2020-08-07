@@ -16,6 +16,14 @@ namespace Consumer
 		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
 		public void ConfigureServices(IServiceCollection services)
 		{
+			//Note: The injection of services needs before of `services.AddCap()`
+			services.AddTransient<ISubscriberService,SubscriberService>();
+
+			services.AddCap(x =>
+			{
+				x.UseMySql("Server=localhost;Database=outboxmvp;Uid=app;Password=12345;Allow User Variables=True;Port=3308");
+				x.UseRabbitMQ("rabbitmq://localhost:5673/vhost,username=admin,password=mypass");
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
